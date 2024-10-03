@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adicionar Fornecedor</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 80%;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #1e3d59;
+            text-align: center;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        label {
+            font-size: 16px;
+        }
+        input, select {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        button {
+            background-color: #1e3d59;
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #145b7d;
+        }
+        .back-button {
+            background-color: #ccc;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Adicionar Novo Fornecedor</h1>
+        <form id="addForm">
+            <label for="nome">Nome do Fornecedor</label>
+            <input type="text" id="nome" placeholder="Nome do Fornecedor" required>
+
+            <label for="centro_custo">Centro de Custo</label>
+            <input type="text" id="centro_custo" placeholder="Centro de Custo" required>
+
+            <label for="uo">UO</label>
+            <select id="uo" required>
+                <option value="">Selecione</option>
+                <option value="VINDI RECORRENCIA">VINDI RECORRENCIA</option>
+                <option value="VINDI PAGAMENTOS">VINDI PAGAMENTOS</option>
+                <option value="CREDISFERA">CREDISFERA</option>
+                <option value="PAGCERTO">PAGCERTO</option>
+            </select>
+
+            <label for="tipo">Tipo</label>
+            <select id="tipo" required>
+                <option value="">Selecione</option>
+                <option value="Recorrente">Recorrente</option>
+                <option value="Esporádico">Esporádico</option>
+            </select>
+
+            <label for="frequencia">Frequência</label>
+            <select id="frequencia" required>
+                <option value="">Selecione</option>
+                <option value="Mensal">Mensal</option>
+                <option value="Pontual">Pontual</option>
+                <option value="Anual">Anual</option>
+            </select>
+
+            <label for="conta_contabil">Conta Contábil</label>
+            <input type="text" id="conta_contabil" placeholder="Conta Contábil" required>
+
+            <button type="submit">Adicionar Fornecedor</button>
+        </form>
+        <button class="back-button" onclick="window.location.href='/'">Voltar</button>
+    </div>
+
+    <script>
+        document.getElementById('addForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const data = {
+                nome: document.getElementById('nome').value,
+                centro_custo: document.getElementById('centro_custo').value,
+                uo: document.getElementById('uo').value,
+                tipo: document.getElementById('tipo').value,
+                frequencia: document.getElementById('frequencia').value,
+                conta_contabil: document.getElementById('conta_contabil').value
+            };
+
+            fetch('/api/supplier', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert('Fornecedor adicionado com sucesso!');
+                window.location.href = '/';
+            })
+            .catch(error => alert('Erro ao adicionar fornecedor: ' + error));
+        });
+    </script>
+</body>
+</html>
+
+
+

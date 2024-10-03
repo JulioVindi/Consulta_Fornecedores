@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Fornecedor</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 80%;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #1e3d59;
+            text-align: center;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        label {
+            font-size: 16px;
+        }
+        input {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        button {
+            background-color: #1e3d59;
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #145b7d;
+        }
+        .cancel-button {
+            background-color: #ccc;
+        }
+        .cancel-button:hover {
+            background-color: #b0b0b0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Editar Fornecedor</h1>
+
+        <form id="editSupplierForm">
+            <input type="hidden" id="supplierId" value="{{ supplier[0] }}">
+            <div>
+                <label for="nome">Nome do Fornecedor:</label>
+                <input type="text" id="nome" value="{{ supplier[1] }}" required>
+            </div>
+            <div>
+                <label for="centro_custo">Centro de Custo:</label>
+                <input type="text" id="centro_custo" value="{{ supplier[2] }}" required>
+            </div>
+            <div>
+                <label for="uo">UO:</label>
+                <input type="text" id="uo" value="{{ supplier[3] }}" required>
+            </div>
+            <div>
+                <label for="tipo">Tipo:</label>
+                <input type="text" id="tipo" value="{{ supplier[4] }}" required>
+            </div>
+            <div>
+                <label for="frequencia">Frequência:</label>
+                <input type="text" id="frequencia" value="{{ supplier[5] }}" required>
+            </div>
+            <div>
+                <label for="conta_contabil">Conta Contábil:</label>
+                <input type="text" id="conta_contabil" value="{{ supplier[6] }}" required>
+            </div>
+            <button type="button" onclick="updateSupplier()">Salvar</button>
+            <button type="button" class="cancel-button" onclick="window.location.href='/'">Cancelar</button>
+        </form>
+    </div>
+
+    <script>
+        function updateSupplier() {
+            const id = $('#supplierId').val();
+            const nome = $('#nome').val();
+            const centro_custo = $('#centro_custo').val();
+            const uo = $('#uo').val();
+            const tipo = $('#tipo').val();
+            const frequencia = $('#frequencia').val();
+            const conta_contabil = $('#conta_contabil').val();
+
+            $.ajax({
+                url: `/api/supplier/${id}`,
+                type: 'PUT',
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    novo_nome: nome,
+                    novo_centro_custo: centro_custo,
+                    novo_uo: uo,
+                    novo_tipo: tipo,
+                    nova_frequencia: frequencia,
+                    nova_conta_contabil: conta_contabil
+                }),
+                success: function(response) {
+                    alert('Fornecedor atualizado com sucesso!');
+                    window.location.href = '/';
+                },
+                error: function(xhr) {
+                    alert('Erro ao atualizar fornecedor: ' + xhr.responseJSON.error);
+                }
+            });
+        }
+    </script>
+</body>
+</html>
+
